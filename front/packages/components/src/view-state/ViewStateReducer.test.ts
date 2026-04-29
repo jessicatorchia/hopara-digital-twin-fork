@@ -132,7 +132,7 @@ describe('getInitialRowParams', () => {
       x: 0.060000000000000005,
       y: 0.01,
       z: 0,
-      zoom: 7.99,
+      zoom: 12.4,
       bearing: -90,
     }))
   })
@@ -154,7 +154,7 @@ describe('getInitialRowParams', () => {
       x: 0.060000000000000005,
       y: 0.01,
       z: 0,
-      zoom: 7.99,
+      zoom: 12.4,
       bearing: -90,
     }))
   })

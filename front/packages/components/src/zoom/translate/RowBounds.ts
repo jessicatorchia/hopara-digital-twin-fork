@@ -36,6 +36,6 @@ export const getRowBounds = (
     bounds = Bounds.fromGeometry(targetGeometry, {orthographic: viewState.isOrthographicViewport(viewState.viewport)})
   }
 
-  if (row.getCoordinates().hasGeometry() || row.getCoordinates().isGeometryLike()) bounds = bounds.rotateToBearing(targetBearing)
+  if (targetGeometry.length > 1) bounds = bounds.rotateToBearing(targetBearing)
   return bounds.getBoundingBox() as unknown as [[number, number], [number, number]]
 }

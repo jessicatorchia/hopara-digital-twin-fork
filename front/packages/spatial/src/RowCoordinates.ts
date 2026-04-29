@@ -90,7 +90,7 @@ export class RowCoordinates {
     return value.length === 1
   }
 
-getAnchoredValue(value: any, anchor?: Anchor): [number, number, number?] {
+  getAnchoredValue(value: any, anchor?: Anchor): [number, number, number?] {
     try {
       if (this.isPointGeometry(value)) {
         return value[0]

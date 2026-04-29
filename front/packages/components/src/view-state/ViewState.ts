@@ -376,14 +376,12 @@ class ViewState {
     return this._lastModified > viewState._lastModified
   }
 
-  getFitBoundsZoom(bounds: [[number, number], [number, number]], maxZoom?: number, padding: number | Required<Padding> = 0, bearing?: number): number | undefined {
+  getFitBoundsZoom(bounds: [[number, number], [number, number]], padding: number | Required<Padding> = 0, bearing?: number): number | undefined {
     const viewport = this.getViewport(!isNil(bearing) ? {bearing} : undefined)
     if (!viewport) return
 
-    return Number(viewport.fitBounds(bounds, {
-      maxZoom: maxZoom ?? this.zoomRange.getMaxVisible(),
-      padding
-    }).zoom.toFixed(2))
+    return Number(viewport.fitBounds(bounds, { maxZoom: this.zoomRange.getMaxVisible(), padding })
+                          .zoom.toFixed(2))
   }
 
   setInitialPosition(position?: Partial<Position>): ViewState {
@@ -528,7 +526,7 @@ class ViewState {
   fitInitialPositionToContentBox(contentBox: Box): Position {
     if (this.initialPosition.type !== 'FIT_TO_CONTENT') return this.initialPosition
 
-    const fitZoom = this.getFitBoundsZoom(contentBox.getBounds(), undefined, getBoundsPadding(this.initialPosition.padding, this.dimensions))
+    const fitZoom = this.getFitBoundsZoom(contentBox.getBounds(), getBoundsPadding(this.initialPosition.padding, this.dimensions))
     const fitBearing = getPolygonBearing(contentBox.getPolygon())
 
     return new Position({

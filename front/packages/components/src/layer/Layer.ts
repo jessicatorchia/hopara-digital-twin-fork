@@ -23,7 +23,6 @@ import { container } from 'tsyringe'
 import { TransformFactory, TransformFactoryToken } from '../transform/TransformFactory'
 import { SimpleTransformFactory } from '../transform/SimpleTransformFactory'
 
-const NOT_RESIZABLE_ZOOM_INCREMENT = 2
 export const NULL_QUERY_KEY = { source: 'noneSource', query: 'noneQuery' }
 
 const renderPropsMap = {
@@ -564,10 +563,7 @@ export class Layer implements QueryHolder {
   }
 
   getGoToZoom() {
-    return Math.max(
-      this.encoding?.config?.maxResizeZoom ?? (this.visible.getZoomRange().getMaxVisible() - NOT_RESIZABLE_ZOOM_INCREMENT),
-      this.visible.getZoomRange().getMin(),
-    )
+    return this.visible.getZoomRange().getMaxVisible()
   }
 
   isResizable() {
