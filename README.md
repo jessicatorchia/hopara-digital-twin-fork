@@ -4,7 +4,7 @@ Hopara is an open source digital twin plataform, where you can easily build a di
 
 Technically speaking, you can think of Hopara as an interesting combination of Grafana, Figma and Prezi. 
 
-The original version of this project was built at MIT by Michael Stonebraker (Postgres), Wenbo Tao and Remco Chang. It was open-sourced after 5 years of development.
+The original version of this project was built at MIT by Michael Stonebraker (Postgres), Wenbo Tao and Remco Chang.
 
 https://github.com/user-attachments/assets/d99ddf9d-5a49-49ba-aa21-a8cb59710d2f
 
