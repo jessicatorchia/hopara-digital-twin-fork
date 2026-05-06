@@ -65,14 +65,14 @@ export const rowsetStoreReducer: Reducer<RowsetStore, ActionTypes> = (rowsetStor
     case getType(actions.rowset.rowUpdated): {
       let updatedStore = rowsetStore
       rowsetStore.getRowsets().withData(action.payload.data).forEach((rowset) => {
-        updatedStore = rowsetStore.partialUpdateRow(rowset.getId(), action.payload.rowId, action.payload.row)
+        updatedStore = updatedStore.partialUpdateRow(rowset.getId(), action.payload.rowId, action.payload.row)
       })
       return updatedStore
     }
     case getType(actions.rowset.rowPositionUpdated): {
       let updatedStore = rowsetStore
       rowsetStore.getRowsets().withData(action.payload.data).forEach((rowset) => {
-        updatedStore = rowsetStore.partialUpdateRow(rowset.getId(), action.payload.rowId, action.payload.row, true)
+        updatedStore = updatedStore.partialUpdateRow(rowset.getId(), action.payload.rowId, action.payload.row, true)
       })
       return updatedStore
     }
