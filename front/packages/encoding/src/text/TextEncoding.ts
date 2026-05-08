@@ -112,26 +112,6 @@ export class TextEncoding extends BaseEncoding<TextEncoding> {
     return ''
   }
 
-  wordWrapToStringList(value: string, maxLength:number) {
-    const result:string[] = []
-    let line:string[] = []
-    let length = 0
-    value.split(' ').forEach((word:string) => {
-        if ((length + word.length) >= maxLength) {
-            result.push(line.join(' '))
-            line = []; length = 0
-        }
-        length += word.length + 1
-        line.push(word)
-    })
-
-    if (line.length > 0) {
-        result.push(line.join(' '))
-    }
-
-    return result
-}
-
   getValue(row: any, columnType?: ColumnType) {
     let value = geti(this.getField(), row)
     if (isNil(value)) {

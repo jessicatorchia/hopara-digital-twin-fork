@@ -35,7 +35,7 @@
     "@mui/x-date-pickers": "^7.2.0",
     "@reduxjs/toolkit": "^2.2.7",
     "ajv": "^8.18.0",
-    "axios": "^1.15.0",
+    "axios": "^1.15.1",
     "case": "^1.6.3",
     "clsx": "^1.2.1",
     "colorsys": "^1.0.22",

@@ -19,7 +19,7 @@
     "@hopara/i18n": "2.4.66",
     "@hopara/internals": "2.4.66",
     "@hopara/page": "2.4.66",
-    "axios": "^1.15.0",
+    "axios": "^1.15.1",
     "axios-retry": "^4.5.0",
     "jwt-decode": "^3.1.2",
     "lodash": "~4.18.1",
