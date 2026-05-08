@@ -116,7 +116,7 @@ export const parseResponse = (response): VisualizationResponse => {
     schema: get('schema', response),
     history: get('history', response),
     queries,
-    scope: response.visualization.scope,
+    scope: response.visualization.scope ?? response.visualization.id,
     layers: response.visualization.layers,
     legends: parseLegends(response),
     visualization: parseVisualization(response),

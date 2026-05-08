@@ -36,13 +36,13 @@ class Visualization {
   @Expose() backgroundColor?: string
 
 
-  @Transform(({value}) => value ?? [])
+  @Transform(({value}) => value ?? [], {toClassOnly: true})
   @Expose() legends: Legends
 
   constructor(props?:Partial<Visualization>) {
     Object.assign(this, props)
 
-    if (!this.scope) {
+    if ( !this.scope ) {
       this.scope = this.id
     }
   }
