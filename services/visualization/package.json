@@ -52,7 +52,7 @@
     "@hopara/schema-validator": "^0.1.6",
     "ajv": "^8.18.0",
     "awilix": "^4.3.4",
-    "axios": "^1.15.0",
+    "axios": "^1.15.1",
     "case": "^1.6.3",
     "change-case": "^4.1.2",
     "config": "^3.3.1",
