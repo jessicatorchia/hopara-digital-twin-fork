@@ -34,9 +34,6 @@ export class TemplateVisualizationService {
     // We'll only change the first visualization, so we don't have conflicting names/ids
     if (index === 0) {
       visualizationSpec.id = this.getId(visualizationSpec, visualizationConfig)
-      if (!visualizationSpec.scope) {
-        visualizationSpec.scope = visualizationSpec.id
-      }
 
       if (visualizationConfig.name) {
         visualizationSpec.name = visualizationConfig.name
