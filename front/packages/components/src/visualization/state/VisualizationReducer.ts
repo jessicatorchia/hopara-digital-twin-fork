@@ -53,7 +53,7 @@ export const visualizationReducer: Reducer<VisualizationStore, ActionTypes> = (s
       return state
         .setVisualization(new Visualization({
           ...action.payload.visualization,
-          scope: action.payload.scope,
+          scope: action.payload.scope ?? action.payload.visualization?.scope,
         }))
         .setEditStatus(state.editStatus === VisualizationEditStatus.DISCARDING ? VisualizationEditStatus.DISCARDED : VisualizationEditStatus.UPDATED)
         .setLoadStatus(VisualizationLoadStatus.LOADED)
