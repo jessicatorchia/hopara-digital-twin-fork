@@ -42,8 +42,8 @@ class Visualization {
   constructor(props?:Partial<Visualization>) {
     Object.assign(this, props)
 
-    if ( !this.scope ) {
-      this.scope = this.id
+    if ( !props?.scope ) {
+      this.scope = props?.id
     }
   }
 
