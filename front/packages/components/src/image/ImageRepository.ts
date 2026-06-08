@@ -1,7 +1,7 @@
 import {Config} from '@hopara/config'
 import {httpPost, OnUploadFunction} from '@hopara/http-client'
 import {Authorization} from '@hopara/authorization'
-import {ResourceRepository, IsometricResourceType} from '../resource/ResourceRepository'
+import {ResourceRepository, IsometricMethod} from '../resource/ResourceRepository'
 import {getBaseResourceUrl, ResourceHistoryItem, ResourceType} from '@hopara/resource'
 
 export class ImageRepository {
@@ -45,7 +45,7 @@ export class ImageRepository {
     )
   }
 
-  static async generateIsometric(resourceId: string, library: string, type: IsometricResourceType, authorization: Authorization) {
-    return ResourceRepository.generateIsometric(resourceId, library, type, authorization)
+  static async generateIsometric(resourceId: string, library: string, method: IsometricMethod, authorization: Authorization) {
+    return ResourceRepository.generateIsometric(resourceId, library, method, authorization)
   }
 }

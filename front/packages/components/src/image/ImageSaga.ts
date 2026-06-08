@@ -4,7 +4,7 @@ import { Authorization } from '@hopara/authorization'
 import { Store } from '../state/Store'
 import { Layers } from '../layer/Layers'
 import { ImageRepository } from './ImageRepository'
-import { IsometricResourceType } from '../resource/ResourceRepository'
+import { IsometricMethod } from '../resource/ResourceRepository'
 import { toastInfo, toastSuccess } from '@hopara/design-system/src/toast/Toast'
 import { i18n } from '@hopara/i18n'
 import { Bounds, PlainBounds, RowCoordinates } from '@hopara/spatial'
@@ -299,7 +299,7 @@ function* generateIsometricImage(action: ReturnType<typeof actions.rowToolbar.ge
       ImageRepository.generateIsometric,
       action.payload.resourceId,
       action.payload.library,
-      IsometricResourceType.REALISTIC,
+      IsometricMethod.REALISTIC,
       authorization
     )
 
@@ -335,7 +335,7 @@ function* generateIsometricWireframeImage(action: ReturnType<typeof actions.rowT
       ImageRepository.generateIsometric,
       action.payload.resourceId,
       action.payload.library,
-      IsometricResourceType.WIREFRAME,
+      IsometricMethod.WIREFRAME,
       authorization
     )
 
