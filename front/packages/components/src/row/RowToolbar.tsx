@@ -353,7 +353,7 @@ export class RowToolbar extends PureComponent<StateProps & ActionProps, {
             />
             {!this.props.status &&
               <>
-                {!this.props.allowRotation && this.props.allowImageEdit && <CanvasNavigationButton
+                {!this.props.allowRotation && this.props.allowImageEdit && this.props.generatingMethod !== IsometricMethod.ISOMETRIC_TOP && <CanvasNavigationButton
                   icon={this.props.generatingMethod === IsometricMethod.REALISTIC ? 'progress-activity' : 'generate-isometric'}
                   label={!cloudFeaturesEnabled
                     ? <CloudFeatureLabel featureName={i18n('GENERATE_ISOMETRIC_IMAGE')}/>
@@ -362,7 +362,7 @@ export class RowToolbar extends PureComponent<StateProps & ActionProps, {
                   disabled={!cloudFeaturesEnabled}
                   onClick={this.props.onGenerateIsometricClick}
                 />}
-                {!this.props.allowRotation && this.props.allowImageEdit && <CanvasNavigationButton
+                {!this.props.allowRotation && this.props.allowImageEdit && this.props.generatingMethod !== IsometricMethod.REALISTIC && <CanvasNavigationButton
                   icon={this.props.generatingMethod === IsometricMethod.ISOMETRIC_TOP ? 'progress-activity' : 'generate-isometric'}
                   label={!cloudFeaturesEnabled
                     ? <CloudFeatureLabel featureName={i18n('PROJECT_TO_ISOMETRIC')}/>
