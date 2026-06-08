@@ -616,6 +616,7 @@ export const stringsPtBr: typeof stringsEnUs = {
   'PDF_1': 'Manual de instalação',
   'PDF_2': 'Manual de manutenção',
   'GENERATE_ISOMETRIC_IMAGE': 'Gerar imagem isométrica',
+  'PROJECT_TO_ISOMETRIC': 'Projetar para isométrico',
   'ERROR_GENERATING_ISOMETRIC_IMAGE': 'Erro gerando imagem isométrica',
   'ERROR_GENERATING_ISOMETRIC_WIREFRAME_IMAGE': 'Erro gerando wireframe isométrico',
   'ISOMETRIC_GENERATION_STARTED': 'Geração da imagem isométrica iniciada.',

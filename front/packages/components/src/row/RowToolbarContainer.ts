@@ -282,6 +282,18 @@ const mapActions = (dispatch: Dispatch, stateProps: StateProps): ActionProps => 
         rowsetId: stateProps.rowsetId!
       }))
     },
+    onProjectToIsometricClick: () => {
+      const resourceId = stateProps.layer!.encoding.image!.getId(stateProps.row)
+      if (!resourceId) return
+
+      dispatch(actions.rowToolbar.projectToIsometricClicked({
+        layerId: stateProps.layer!.getId(),
+        resourceId,
+        library: stateProps.layer!.encoding.image!.scope!,
+        row: stateProps.row!,
+        rowsetId: stateProps.rowsetId!
+      }))
+    },
     onLoad: () => {
       dispatch(actions.rowToolbar.onLoad())
     },

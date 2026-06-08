@@ -81,6 +81,7 @@ export interface ActionProps {
   onFitToBuildingClick: () => void;
   onFitToRoomClick: () => void;
   onGenerateIsometricClick: () => void;
+  onProjectToIsometricClick: () => void;
   onLoad: () => void;
   onRotateClicked: () => void;
 }
@@ -359,6 +360,15 @@ export class RowToolbar extends PureComponent<StateProps & ActionProps, {
                   tooltipPlacement="top"
                   disabled={!cloudFeaturesEnabled}
                   onClick={this.props.onGenerateIsometricClick}
+                />}
+                {!this.props.allowRotation && this.props.allowImageEdit && <CanvasNavigationButton
+                  icon={this.props.isGeneratingImage ? 'progress-activity' : 'generate-isometric'}
+                  label={!cloudFeaturesEnabled
+                    ? <CloudFeatureLabel featureName={i18n('PROJECT_TO_ISOMETRIC')}/>
+                    : i18n('PROJECT_TO_ISOMETRIC')}
+                  tooltipPlacement="top"
+                  disabled={!cloudFeaturesEnabled}
+                  onClick={this.props.onProjectToIsometricClick}
                 />}
 
                 {canRotate && <>
