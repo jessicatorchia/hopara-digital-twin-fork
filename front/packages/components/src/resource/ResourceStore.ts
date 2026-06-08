@@ -1,3 +1,5 @@
+import { IsometricMethod } from './ResourceRepository'
+
 export enum ResourceUploadStatus {
   UPLOADING = 'uploading',
   UPLOADED = 'uplodaded',
@@ -23,6 +25,7 @@ export interface ResourceUploadState extends ResourceState {
 
 export interface ResourceGenerateState extends ResourceState {
   status: ResourceGenerateStatus
+  method?: IsometricMethod
 }
 
 export class ResourceStore {

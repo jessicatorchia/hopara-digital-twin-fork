@@ -137,7 +137,7 @@ const mapState = (store: Store): StateProps => {
     isFitting: store.rowHistory.status === RowSavedStatus.fitting,
     visible: store.navigation.visible,
     screenCoordinates,
-    isGeneratingImage: generateState?.status === ResourceGenerateStatus.GENERATING,
+    generatingMethod: generateState?.status === ResourceGenerateStatus.GENERATING ? generateState?.method : undefined,
     allowRotation: !!(store.viewLayers.rowSelection?.allowRotation),
     allowImageEdit: !!(store.viewLayers.rowSelection?.allowImageEdit),
     hasViewField: !!(selectedLayer?.encoding.image?.view?.field) && positionQuery?.getColumns().has(selectedLayer.encoding.image.view.field),

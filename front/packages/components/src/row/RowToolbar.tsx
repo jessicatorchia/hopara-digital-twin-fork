@@ -19,6 +19,7 @@ import {Icon} from '@hopara/design-system/src/icons/Icon'
 import {PillButton} from '@hopara/design-system/src/buttons/PillButton'
 import {styled} from '@mui/material/styles'
 import {LayerType} from '../layer/LayerType'
+import {IsometricMethod} from '../resource/ResourceRepository'
 import {Config} from '@hopara/config'
 import {HoparaCloudBadge} from '@hopara/design-system/src/branding/HoparaCloudBadge'
 
@@ -58,7 +59,7 @@ export interface StateProps {
   canFitToBuilding: boolean;
   isFitting: boolean;
   screenCoordinates: number[];
-  isGeneratingImage?: boolean;
+  generatingMethod?: IsometricMethod;
   allowRotation?: boolean;
   allowImageEdit?: boolean;
   hasViewField?: boolean;
@@ -353,7 +354,7 @@ export class RowToolbar extends PureComponent<StateProps & ActionProps, {
             {!this.props.status &&
               <>
                 {!this.props.allowRotation && this.props.allowImageEdit && <CanvasNavigationButton
-                  icon={this.props.isGeneratingImage ? 'progress-activity' : 'generate-isometric'}
+                  icon={this.props.generatingMethod === IsometricMethod.REALISTIC ? 'progress-activity' : 'generate-isometric'}
                   label={!cloudFeaturesEnabled
                     ? <CloudFeatureLabel featureName={i18n('GENERATE_ISOMETRIC_IMAGE')}/>
                     : i18n('GENERATE_ISOMETRIC_IMAGE')}
@@ -362,7 +363,7 @@ export class RowToolbar extends PureComponent<StateProps & ActionProps, {
                   onClick={this.props.onGenerateIsometricClick}
                 />}
                 {!this.props.allowRotation && this.props.allowImageEdit && <CanvasNavigationButton
-                  icon={this.props.isGeneratingImage ? 'progress-activity' : 'generate-isometric'}
+                  icon={this.props.generatingMethod === IsometricMethod.ISOMETRIC_TOP ? 'progress-activity' : 'generate-isometric'}
                   label={!cloudFeaturesEnabled
                     ? <CloudFeatureLabel featureName={i18n('PROJECT_TO_ISOMETRIC')}/>
                     : i18n('PROJECT_TO_ISOMETRIC')}
