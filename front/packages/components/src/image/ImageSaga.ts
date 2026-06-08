@@ -327,6 +327,42 @@ function* generateIsometricImage(action: ReturnType<typeof actions.rowToolbar.ge
   }
 }
 
+function* projectToIsometricImage(action: ReturnType<typeof actions.rowToolbar.projectToIsometricClicked>) {
+  try {
+    const authorization: Authorization = yield getRefreshAuthorization()
+
+    const imageMetadata = yield call(
+      ImageRepository.generateIsometric,
+      action.payload.resourceId,
+      action.payload.library,
+      IsometricMethod.ISOMETRIC_TOP,
+      authorization
+    )
+
+    yield put(actions.image.generateIsometric.success({
+      library: action.payload.library,
+      imageId: action.payload.resourceId,
+      layerId: action.payload.layerId,
+      rowsetId: action.payload.rowsetId,
+      resourceId: action.payload.resourceId,
+      row: action.payload.row,
+      dimensions: imageMetadata.dimensions,
+      version: imageMetadata.version,
+      shape: imageMetadata.shape,
+      canRotate: true
+    }))
+
+    toastSuccess(i18n('ISOMETRIC_GENERATION_STARTED'))
+  } catch (e: any) {
+    yield put(actions.image.generateIsometric.failure({
+      reason: i18n('ERROR_GENERATING_ISOMETRIC_IMAGE'),
+      resourceId: action.payload.resourceId,
+      library: action.payload.library,
+      exception: e
+    }))
+  }
+}
+
 function* generateIsometricWireframeImage(action: ReturnType<typeof actions.rowToolbar.generateIsometricWireframeClicked>) {
   try {
     const authorization: Authorization = yield getRefreshAuthorization()
@@ -420,6 +456,7 @@ export const imageSagas = () => [
   takeEvery(actions.viewLayer.cropApplyClicked, cropImage),
   takeEvery(actions.rowToolbar.generateIsometricClicked, generateIsometricImage),
   takeEvery(actions.rowToolbar.generateIsometricWireframeClicked, generateIsometricWireframeImage),
+  takeEvery(actions.rowToolbar.projectToIsometricClicked, projectToIsometricImage),
   takeEvery(actions.image.generateIsometric.success, saveImageBounds),
   takeEvery(actions.image.generateIsometricWireframe.success, saveImageBounds),
   takeEvery(actions.rowToolbar.onLoad, updateImageMetadata),
