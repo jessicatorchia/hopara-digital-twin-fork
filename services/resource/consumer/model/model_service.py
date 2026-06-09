@@ -40,9 +40,6 @@ def load_model(model_file_path):
     if extension not in SUPPORTED_EXTENSIONS:
         raise ValueError(f'Invalid extension: {extension} | Supported: {SUPPORTED_EXTENSIONS}')
 
-    if extension == '.obj':
-        model_file_path = obj_to_glb(model_file_path)
-
     # blender uses internal global variables leading to concurrency issues
     lock.acquire(timeout=MODEL_PROCESSING_TIMEOUT)
     lazy_import.LOG = False
@@ -52,6 +49,11 @@ def load_model(model_file_path):
 
     if extension == '.fbx':
         result = bpy.ops.import_scene.fbx(filepath=model_file_path)
+    elif extension == '.obj':
+        # Use Blender's native OBJ importer (bpy 4.x) so that geometry is
+        # loaded correctly even when the accompanying .mtl / texture files are
+        # absent (trimesh silently produces an empty GLB in that case).
+        result = bpy.ops.wm.obj_import(filepath=model_file_path)
     else:
         result = bpy.ops.import_scene.gltf(filepath=model_file_path, loglevel=logging.NOTSET)
 

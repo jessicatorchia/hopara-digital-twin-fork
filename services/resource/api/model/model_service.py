@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, cast
+from typing import Any, Dict, List, Optional, cast
 
 from api.image.image import ModelRequestFormat
 from api.model.model_path import ModelPath
@@ -20,6 +20,13 @@ class ModelService:
     repository: ModelRepository
     process_client: ResourceProcessClient
     library_repository: LibraryRepository
+
+    _MIME_TO_EXTENSION: Dict[str, str] = {
+        'model/gltf-binary': '.glb',
+        'model/gltf+json': '.gltf',
+        'model/obj': '.obj',
+        'application/octet-stream+fbx': '.fbx',
+    }
 
     def __init__(self, repository: ModelRepository, library_repository: LibraryRepository,
                  process_client: ResourceProcessClient, history_repository: ResourceHistoryRepository):
@@ -99,6 +106,8 @@ class ModelService:
             name: str = ''
     ) -> ResourceStep:
 
+        extension = ModelService._MIME_TO_EXTENSION.get(mime_type or '', '.glb')
+
         steps: list[ResourceStep] = [
             ResourceStep(
                 cwd=cwd,
@@ -108,6 +117,7 @@ class ModelService:
                     'destination': ResourcePath.get_file_path(version, 'model.glb'),
                     'compressed_gltf': compressed_gltf,
                     'reset_centroid': reset_centroid,
+                    'extension': extension,
                 },
                 invalidation_urls=invalidation_url,
                 ready=True,
