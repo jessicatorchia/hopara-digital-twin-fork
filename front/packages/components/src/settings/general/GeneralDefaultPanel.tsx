@@ -33,10 +33,10 @@ export class GeneralDefaultPanel extends PureComponent<Props> {
           />}
         >
           <PanelCards>
-            <RefreshEditorContainer/>
-            <DebugModeEditorContainer/>
             <InitialPositionEditorContainer/>
             <AutoNavigationEditorContainer/>
+            <RefreshEditorContainer/>
+            <DebugModeEditorContainer/>
           </PanelCards>
         </SubPanel>
       </SubPanelWrapper>

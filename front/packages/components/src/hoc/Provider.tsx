@@ -18,65 +18,26 @@ overrideConsole(window)
 Internals.init(['test', 'animate', 'advanced', 'navigationControls'])
 export const HoparaStore = getStore()
 
-const DEBUG_MODE_STORAGE_KEY = 'hopara.debugMode'
-
-function persistDebugMode(enabled: boolean): void {
-  try {
-    window.localStorage?.setItem(DEBUG_MODE_STORAGE_KEY, String(enabled))
-  } catch {
-    // Ignore localStorage failures (private mode / blocked storage).
-  }
+// We set here, before everything, to allow debug config in react config
+const queryString = QueryStringParser.parse(window.location.search)
+if (queryString.debug === 'true') {
+  Debug.enable()
+} else if (queryString.debug === 'false') {
+  Debug.disable()
+  window._hoparaDisableDebug = () => Debug.disable()
 }
 
-function getStoredDebugMode(): boolean {
-  try {
-    return window.localStorage?.getItem(DEBUG_MODE_STORAGE_KEY) === 'true'
-  } catch {
-    return false
-  }
-}
-
-function applyDebugWindowBindings(): void {
+if (Debug.isDebugging()) {
   window._hoparaStore = HoparaStore
   window._hoparaConfig = Config
 }
 
-function clearDebugWindowBindings(): void {
-  delete window._hoparaStore
-  delete window._hoparaConfig
-}
-
-function enableDebugMode({persist = false}: {persist?: boolean} = {}): void {
+window._hoparaEnableDebug = () => {
   Debug.enable()
   logVisualizationInfo()
-  applyDebugWindowBindings()
-  if (persist) persistDebugMode(true)
-}
-
-function disableDebugMode({persist = false}: {persist?: boolean} = {}): void {
-  Debug.disable()
-  clearDebugWindowBindings()
-  if (persist) persistDebugMode(false)
-}
-
-// We set here, before everything, to allow debug config in react config
-const queryString = QueryStringParser.parse(window.location.search)
-if (queryString.debug === 'true') {
-  enableDebugMode()
-} else if (queryString.debug === 'false') {
-  disableDebugMode()
-} else if (getStoredDebugMode()) {
-  enableDebugMode()
-} else {
-  disableDebugMode()
-}
-
-window._hoparaEnableDebug = () => {
-  enableDebugMode({persist: true})
-}
-
-window._hoparaDisableDebug = () => {
-  disableDebugMode({persist: true})
+  window._hoparaStore = HoparaStore
+  window._hoparaConfig = Config
+  window._hoparaDisableDebug = () => Debug.disable()
 }
 
 interface Props extends React.PropsWithChildren {

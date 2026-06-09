@@ -6,42 +6,22 @@ import {i18n} from '@hopara/i18n'
 import {Box, Switch} from '@mui/material'
 import {Debug} from '@hopara/internals'
 
-const DEBUG_MODE_STORAGE_KEY = 'hopara.debugMode'
-const window: any = global
-
-function getStoredDebugMode(): boolean {
-  try {
-    return window.localStorage?.getItem(DEBUG_MODE_STORAGE_KEY) === 'true'
-  } catch {
-    return false
-  }
-}
-
-function persistDebugMode(enabled: boolean): void {
-  try {
-    window.localStorage?.setItem(DEBUG_MODE_STORAGE_KEY, String(enabled))
-  } catch {
-    // Ignore localStorage failures (private mode / blocked storage).
-  }
-}
-
 interface State {
   enabled: boolean
 }
 
 export class DebugModeEditor extends PureComponent<{}, State> {
   state: State = {
-    enabled: Debug.isDebugging() || getStoredDebugMode(),
+    enabled: Debug.isDebugging()
   }
 
   onChange = (enabled: boolean) => {
     if (enabled) {
-      window._hoparaEnableDebug?.()
+      Debug.enable()
     } else {
-      window._hoparaDisableDebug?.()
+      Debug.disable()
     }
 
-    persistDebugMode(enabled)
     this.setState({enabled})
   }
 
