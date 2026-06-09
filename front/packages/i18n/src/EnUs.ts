@@ -458,6 +458,8 @@ export const stringsEnUs = {
   'AUTO_REFRESH': 'Auto refresh',
   'WHEN_ENABLED_THE_VISUALIZATION_WILL_BE_REFRESHED_EVERY_MINUTE':
     'Refreshes the visualization every minute',
+  'DEBUG_MODE': 'Debug mode',
+  'DEBUG_MODE_HELPER_TEXT': 'Print debug information in the browser console',
   'NEW_ICON': 'New icon',
   'NO_FILTER_FOUND': 'No filter found',
   'SEARCH_FOR_FILTER': (p: { filterName: string }) => `Search ${p.filterName}`,

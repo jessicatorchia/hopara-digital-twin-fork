@@ -11,6 +11,7 @@ import {connect} from '@hopara/state'
 import {Dispatch} from '@reduxjs/toolkit'
 import {MoreButton} from '@hopara/design-system/src/buttons/MoreButton'
 import {SubPanel, SubPanelWrapper} from '@hopara/design-system/src/panel/SubPanel'
+import {DebugModeEditorContainer} from './DebugModeEditor'
 
 interface ActionProps {
   onAdvancedModeClick: (enabled: boolean) => void
@@ -32,9 +33,10 @@ export class GeneralDefaultPanel extends PureComponent<Props> {
           />}
         >
           <PanelCards>
-            <RefreshEditorContainer/>
             <InitialPositionEditorContainer/>
             <AutoNavigationEditorContainer/>
+            <RefreshEditorContainer/>
+            <DebugModeEditorContainer/>
           </PanelCards>
         </SubPanel>
       </SubPanelWrapper>

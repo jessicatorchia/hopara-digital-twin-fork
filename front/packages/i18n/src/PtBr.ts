@@ -415,6 +415,8 @@ export const stringsPtBr: typeof stringsEnUs = {
   'FLOOR_NAME': 'Nome do andar',
   'AUTO_REFRESH': 'Atualização automática',
   'WHEN_ENABLED_THE_VISUALIZATION_WILL_BE_REFRESHED_EVERY_MINUTE': 'Atualiza a visualização a cada minuto',
+  'DEBUG_MODE': 'Modo de debug',
+  'DEBUG_MODE_HELPER_TEXT': 'Imprime informações de debug na console do navegador',
   'NEW_ICON': 'Novo ícone',
   'NO_FILTER_FOUND': 'Nenhum filtro encontrado',
   'SEARCH_FOR_FILTER': ({ filterName }) => `Buscar ${filterName}`,
