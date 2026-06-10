@@ -72,7 +72,10 @@ function fillWithXySuugestions(filledPositionEncoding: PositionEncoding, columns
 
 export function fillWithSuggestions(layer: Layer, visualizationType:VisualizationType, positionEncoding:PositionEncoding, columns:Columns) {
   const filledPositionEncoding = new PositionEncoding(positionEncoding)
-  if (visualizationType == VisualizationType.GEO && !filledPositionEncoding.floor && columns.has('floor')) {
+  if ((visualizationType == VisualizationType.GEO || 
+       visualizationType == VisualizationType.ISOMETRIC_WHITEBOARD || 
+       visualizationType == VisualizationType.WHITEBOARD) &&
+       !filledPositionEncoding.floor && columns.has('floor')) {
     filledPositionEncoding.floor = { field: 'floor' }
   }
 

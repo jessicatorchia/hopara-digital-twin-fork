@@ -5,7 +5,6 @@ import {Store} from '../state/Store'
 import {Layers} from '../layer/Layers'
 import ViewState from '../view-state/ViewState'
 import {Authorization} from '@hopara/authorization'
-import {ProjectionType, World} from '../world/World'
 import {RowsetStore} from '../rowset/RowsetStore'
 import {isActionOf} from 'typesafe-actions'
 import {Rowset} from '../rowset/Rowset'
@@ -75,12 +74,9 @@ function* getDataFloors() {
 }
 
 function* refreshFloors(action: any) {
-  const world: World = yield select((store: Store) => store.world)
-  if (!world) return
-  if (
-    !world.isProjection(ProjectionType.WEBMERCATOR) ||
-    (isActionOf([actions.hoc.forceRefresh], action))
-  ) {
+  const visualization: Visualization = yield select((store: Store) => store.visualizationStore.visualization)
+  if ( !visualization ) return
+  if ( !(visualization.isGeo() || visualization.isWhiteboard()) || (isActionOf([actions.hoc.forceRefresh], action) )) {
     return yield put(actions.floor.checked())
   }
 
