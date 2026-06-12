@@ -32,6 +32,7 @@ class IsometrifyService:
             tenant: str,
             library: str,
             name: str,
+            invalidate: bool = True,
     ):
         self.repository = repository
         self.queue = queue
@@ -39,6 +40,7 @@ class IsometrifyService:
         self.tenant = tenant
         self.library = library
         self.name = name
+        self.invalidate = invalidate
         self.new_version = version_factory.create()
         current_version = self.repository.get_latest_version(tenant, library, name)
 
@@ -76,7 +78,7 @@ class IsometrifyService:
 
         self.lower_res = self.repository.get_lower_resolution_path(self.cwd, self.current_version)
 
-        self.invalidation_urls = [ImagePath.get_invalidation_path(tenant, library, name)]
+        self.invalidation_urls = [ImagePath.get_invalidation_path(tenant, library, name)] if invalidate else []
 
     def _create_notification(self, value: float) -> ResourceStepNotification:
         return ResourceStepNotification(
@@ -117,7 +119,7 @@ class IsometrifyService:
         parallel_steps = parallel['steps']
         invalidation_urls = self.invalidation_urls + [
             ImagePath.get_shape_list_invalidation_path(self.tenant, self.library)
-        ]
+        ] if self.invalidate else []
         for index, angle in enumerate(angles):
             sequential = ResourceStep(
                 cwd=self.cwd,
@@ -180,7 +182,8 @@ class IsometrifyService:
             bytes = buffer.read()
             self.repository.storage.upload(bytes, self.progress_image_path, cwd=self.cwd)
 
-        self.cache.invalidate(self.invalidation_urls)
+        if self.invalidate:
+            self.cache.invalidate(self.invalidation_urls)
 
         model_to_image = self._model_to_image_step()
         root_payload: ResourceStep = {
