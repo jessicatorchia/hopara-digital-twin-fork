@@ -59,6 +59,7 @@ class TestModelService(unittest.TestCase):
                             'destination': f'{any_new_version}/model.glb',
                             'compressed_gltf': True,
                             'reset_centroid': True,
+                            'extension': '.glb'
                         },
                         'invalidation_urls': [
                             f'/tenant/{any_tenant}/model/{any_name}*',
@@ -170,6 +171,7 @@ class TestModelService(unittest.TestCase):
                                 'destination': f'{any_new_version}/model.glb',
                                 'compressed_gltf': True,
                                 'reset_centroid': True,
+                                'extension':'.glb'
                             },
                             'invalidation_urls': [
                                 f'/tenant/{any_tenant}/model/{any_name}*',
