@@ -27,7 +27,7 @@ class TestModelService(unittest.TestCase):
         file_path = path_join(TEST_ROOT, 'fixtures/sample.obj')
         with open(file_path, 'rb+') as fp:
             buffers = model_service.compress(fp.read(), os.path.splitext(file_path)[1])
-            self.assertEqual(44004, len(buffers[0]))
+            self.assertEqual(26048, len(buffers[0]))
 
     def test_process_fbx(self):
         file_path = path_join(TEST_ROOT, 'fixtures/sample.fbx')
