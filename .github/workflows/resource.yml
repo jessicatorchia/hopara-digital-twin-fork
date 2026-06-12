@@ -38,7 +38,7 @@ jobs:
         run: |
           micromamba install -y -n hopara -c conda-forge -f ./consumer/requirements-conda.txt -f ./api/requirements-conda.txt
           micromamba run -n hopara pip install -r ./api/requirements.txt -r ./consumer/requirements.txt
-          micromamba run -n hopara pip install mypy isort
+          micromamba run -n hopara pip install mypy==1.19.1 isort
           micromamba run -n hopara pip install -e .
 
       - name: Import linter
@@ -72,7 +72,7 @@ jobs:
         run: |
           micromamba install -y -n hopara -c conda-forge -f ./consumer/requirements-conda.txt -f ./api/requirements-conda.txt
           micromamba run -n hopara pip install -r ./api/requirements.txt -r ./consumer/requirements.txt
-          micromamba run -n hopara pip install unittest-xml-reporting mypy isort xmlrunner rembg onnxruntime
+          micromamba run -n hopara pip install unittest-xml-reporting mypy==1.19.1 isort xmlrunner rembg onnxruntime
           micromamba run -n hopara pip install -e .
 
       - name: Run tests

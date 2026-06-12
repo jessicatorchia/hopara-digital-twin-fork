@@ -55,7 +55,7 @@ def strip_phys_if_png(data: bytes) -> bytes:
         if ctype == b"pHYs":
             continue
         out += struct.pack(">I", length) + ctype + cdata + crc
-    return out
+    return bytes(out)
 
 
 def remove_brightness(img: Any) -> bytes:
