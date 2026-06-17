@@ -1,4 +1,4 @@
-import { Layer, project32, picking } from '@deck.gl/core'
+import { Layer, project32, picking, fp64LowPart } from '@deck.gl/core'
 import { BitmapLayerProps } from '@deck.gl/layers'
 import { Texture2D } from '@luma.gl/core'
 import { Model, Geometry } from '@luma.gl/engine'
@@ -62,6 +62,34 @@ export default class MultiBitmapLayer<T, P extends BitmapLayerProps<T>> extends 
         transform: (bounds) => {
           if (!bounds || !bounds.length) return [0, 0, 0, 0]
           return [bounds[2][0], bounds[2][1], bounds[3][0], bounds[3][1]]
+        }
+      },
+      // fp64 low parts of the corner coordinates. In Web Mercator the world
+      // coordinates grow large at high zoom and float32 alone loses precision,
+      // causing the overlay to drift/jitter. These carry the residual bits so
+      // project_position_to_clipspace can do the origin subtraction in fp64.
+      instanceBoundsA64Low: {
+        size: 4,
+        type: 5126, // GL.FLOAT
+        accessor: 'getBounds',
+        transform: (bounds) => {
+          if (!bounds || !bounds.length) return [0, 0, 0, 0]
+          return [
+            fp64LowPart(bounds[0][0]), fp64LowPart(bounds[0][1]),
+            fp64LowPart(bounds[1][0]), fp64LowPart(bounds[1][1])
+          ]
+        }
+      },
+      instanceBoundsB64Low: {
+        size: 4,
+        type: 5126, // GL.FLOAT
+        accessor: 'getBounds',
+        transform: (bounds) => {
+          if (!bounds || !bounds.length) return [0, 0, 0, 0]
+          return [
+            fp64LowPart(bounds[2][0]), fp64LowPart(bounds[2][1]),
+            fp64LowPart(bounds[3][0]), fp64LowPart(bounds[3][1])
+          ]
         }
       }
     })
