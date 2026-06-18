@@ -75,7 +75,7 @@ export class VisualizationService {
     version: number,
     fallbackId: string | undefined,
     authorization: Authorization,
-    filters?: any,
+    filters: any[],
   ): Promise<any | null> {
     const visualization = await this.doGet(id, fallbackId, version, authorization)
     if (!visualization) return null
