@@ -44,7 +44,7 @@ export class VisualizationService {
     return visualization
   }
 
-  private getContentBoundingBox(visualization: Visualization, authorization: Authorization) {
+  private getContentBoundingBox(visualization: Visualization, filters: any[], authorization: Authorization) {
     if (visualization.initialPosition?.type === 'FIT_TO_CONTENT') {
       const initialPositionLayer = visualization.layers.find((layer) => layer.id === visualization.initialPosition?.layerId)
       if (initialPositionLayer) {
@@ -61,7 +61,10 @@ export class VisualizationService {
           }
 
           const scope = initialPositionLayer.encoding?.position?.scope || visualization.scope
-          return this.datasetRepository.getBoundingBox(queryKey, xColumn, yColumn, scope, authorization)
+          if ( scope ) {
+            filters.push({column: scope, values: [visualization.scope]})
+          }
+          return this.datasetRepository.getBoundingBox(queryKey, xColumn, yColumn, filters, authorization)
         }
       }
     }
@@ -71,7 +74,8 @@ export class VisualizationService {
     id: string,
     version: number,
     fallbackId: string | undefined,
-    authorization: Authorization
+    authorization: Authorization,
+    filters?: any,
   ): Promise<any | null> {
     const visualization = await this.doGet(id, fallbackId, version, authorization)
     if (!visualization) return null
@@ -83,7 +87,7 @@ export class VisualizationService {
       this.layerTemplateRepository.getTemplates(authorization),
     ])
 
-    const contentBoundingBox = await this.getContentBoundingBox(visualization, authorization)
+    const contentBoundingBox = await this.getContentBoundingBox(visualization, filters, authorization)
 
     return {
       visualization,

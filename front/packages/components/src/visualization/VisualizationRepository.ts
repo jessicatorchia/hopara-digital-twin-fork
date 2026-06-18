@@ -5,7 +5,7 @@ import Visualization from './Visualization'
 import {get} from 'lodash/fp'
 import {plainToClass} from 'class-transformer'
 
-import {Queries, Query} from '@hopara/dataset'
+import {DatasetFilters, Queries, Query} from '@hopara/dataset'
 
 import {Layers} from '../layer/Layers'
 import {Filters} from '../filter/domain/Filters'
@@ -22,6 +22,21 @@ import {Floor} from '../floor/Floor'
 import {LayerTemplate} from '../layer/template/domain/LayerTemplate'
 import { Box, Range } from '@hopara/spatial'
 import { Grid } from '../grid/Grid'
+
+export const addParam = (
+  queryParam: Record<string, any>,
+  key: string,
+  value?: any
+): void => {
+  if (value) {
+    // Dont send empty array
+    if (Array.isArray(value) && value.length > 0) {
+      queryParam[key] = value
+    } else {
+      queryParam[key] = value
+    }
+  }
+}
 
 export async function put(
   visualizationId: string,
@@ -110,7 +125,6 @@ export interface VisualizationResponse {
 export const parseResponse = (response): VisualizationResponse => {
   const queries = parseQueries(response)
   const initialPosition = parseInitialPosition(response)
-  
 
   return {
     schema: get('schema', response),
@@ -134,12 +148,15 @@ export async function getVisualization(
   fallbackVisualizationId: string | undefined,
   version: number | undefined,
   authorization: Authorization,
+  filters?: DatasetFilters,
 ): Promise<VisualizationResponse> {
-  const response = await httpGet(Config.getValue('BFF_API_ADDRESS', authorization.tenant), `/visualization/${id}`, {
+  const queryParams: any = {
     version,
     fallbackVisualization: fallbackVisualizationId,
     filterValueLimit: 100,
-  }, authorization)
+  }
+  addParam(queryParams, 'filter', filters)
+  const response = await httpGet(Config.getValue('BFF_API_ADDRESS', authorization.tenant), `/visualization/${id}`, queryParams, authorization)
   const body = await response.data
   return parseResponse(body)
 }
