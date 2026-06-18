@@ -4,7 +4,6 @@ import queryString from 'query-string'
 import { Logger } from '@hopara/logger'
 import { Queries, Query, QueryKey } from './Query'
 import { Authorization } from '../authorization'
-import { isEmpty } from 'lodash'
 import { Column } from './Column'
 import { objectsToString } from '../ObjectsToString'
 
@@ -148,7 +147,7 @@ export class DatasetRepository implements Repository {
     }
   }
 
-  public async getBoundingBox(queryKey: QueryKey, xColumn: string, yColumn: string, scope: string | undefined, authorization: Authorization): Promise<any> {
+  public async getBoundingBox(queryKey: QueryKey, xColumn: string, yColumn: string, filters: Array<{column: string, values: any[]}>, authorization: Authorization): Promise<any> {
     try {
       if (!queryKey || !xColumn || !yColumn) {
         return
@@ -156,8 +155,8 @@ export class DatasetRepository implements Repository {
 
       const url = new URL(`/view/${queryKey.name}/bounding-box`, this.datasetConfig.url)
       const params = { dataSource: queryKey.dataSource, xColumn, yColumn } as any
-      if (!isEmpty(scope)) {
-        params['filter'] = { column: 'hopara_scope', values: [scope] }
+      if (filters?.length > 0) {
+        params['filter'] = filters
       }
 
       url.search = queryString.stringify(objectsToString(params))

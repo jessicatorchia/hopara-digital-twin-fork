@@ -117,12 +117,16 @@ export function filterToDatasetFilter(filter: SelectedFilter, columns: Columns):
   return convertDefaultFilter(filter)
 }
 
-export const getSelectedFilters = (selectedFilters: SelectedFilters = new SelectedFilters(), columns: Columns): DatasetFilters => {
+export const getSelectedFilters = (selectedFilters: SelectedFilters = new SelectedFilters(), columns: Columns, validateColumns: boolean = true): DatasetFilters => {
+  if ( isNil(selectedFilters) || selectedFilters.length === 0) {
+    return new DatasetFilters()
+  }
+  
   const filters = new DatasetFilters()
 
   selectedFilters.forEach((filter) => {
     const columnExists = columns.has(filter.field)
-    if (!filter.values.length || !columnExists) return
+    if (!filter.values.length || (validateColumns && !columnExists)) return
     const datasetFilters = filterToDatasetFilter(filter, columns)
     datasetFilters.forEach((datasetFilter) => filters.push(datasetFilter))
   })

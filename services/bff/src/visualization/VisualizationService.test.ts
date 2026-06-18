@@ -28,7 +28,7 @@ it('should get an visualization', async () => {
   const service = new VisualizationService(getVisualizationRepositoryStub(), getDatasetRepositoryStub() as any,
      new LayerRepositoryStub(), new LayerTemplateRepositoryStub())
   const { visualization, queries } = await service.get(
-    'any-visualization-id', 1, undefined, { tenant: 'tenant', token: 'token' }
+    'any-visualization-id', 1, undefined, { tenant: 'tenant', token: 'token' }, []
   )
   expect(visualization.id).toEqual('any-visualization-id')
   expect(queries[0].columns.length).toEqual(4)
@@ -38,7 +38,7 @@ it('should get an visualization with fallback', async () => {
   const service = new VisualizationService(getVisualizationRepositoryStub(), getDatasetRepositoryStub() as any,
     new LayerRepositoryStub(), new LayerTemplateRepositoryStub())
   const { visualization, queries } = await service.get(
-    'any-unknow-visualization-id', 1, 'any-visualization-id', { tenant: 'tenant', token: 'token' }
+    'any-unknow-visualization-id', 1, 'any-visualization-id', { tenant: 'tenant', token: 'token' }, []
   )
   expect(visualization.id).toEqual('any-unknow-visualization-id')
   expect(queries[0].columns.length).toEqual(4)

@@ -20,6 +20,8 @@ import {Authorization} from '@hopara/authorization'
 import {BFF_VISUALIZATION_CACHE_KEY} from '@hopara/service-worker/src/bff/BFF'
 import {takeEveryAndRestart} from '@hopara/state'
 import {LayerFactory} from '../../layer/factory/LayerFactory'
+import { getSelectedFilters } from '../../filter/DatasetFiltersFactory'
+import { Columns } from '@hopara/dataset'
 
 const getViewDimension = (): Dimensions => {
   const mainViewElement = document.getElementById(MAIN_VIEW_ELM_ID)
@@ -184,6 +186,7 @@ export function* fetchVisualization(action: ReturnType<
       params.fallbackVisualizationId,
       params.version,
       authorization,
+      getSelectedFilters(params.selectedFilters, new Columns(), false),
     )
 
     const responseParams = getActionParams(action, params, visualizationResponse.visualization.type)
