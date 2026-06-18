@@ -85,6 +85,7 @@
   "license": "AGPL-3.0-only",
   "packageManager": "yarn@4.7.0",
   "resolutions": {
+    "@babel/core": "7.29.6",
     "@turf/along": "6.5.0",
     "@turf/area": "6.5.0",
     "@turf/bbox-polygon": "6.5.0",
@@ -119,6 +120,7 @@
     "@typescript-eslint/parser": "8.27.0",
     "typescript-eslint": "8.27.0",
     "concaveman": "1.2.1",
-    "@types/react": "^18.2.37"
+    "@types/react": "^18.2.37",
+    "ua-parser-js": "2.0.10"
   }
 }
