@@ -62,7 +62,7 @@ export class VisualizationService {
 
           const scope = initialPositionLayer.encoding?.position?.scope || visualization.scope
           if ( scope ) {
-            filters.push({column: scope, values: [visualization.scope]})
+            filters.push({column: "hopara_scope", values: [visualization.scope]})
           }
           return this.datasetRepository.getBoundingBox(queryKey, xColumn, yColumn, filters, authorization)
         }
