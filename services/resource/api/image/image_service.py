@@ -242,8 +242,11 @@ class ImageService:
             shapes.setdefault(result.metadata['name'], []).append(result.metadata)
         return shapes
 
-    def image_to_render(self, tenant: str, library: str, name: str) -> ResourceResult:
+    def image_to_render(
+            self, tenant: str, library: str, name: str, invalidate: bool = True
+    ) -> ResourceResult:
         isometrify_service = IsometrifyService(
-            self.repository, self.queue, self.version_factory, self.cache, tenant, library, name
+            self.repository, self.queue, self.version_factory, self.cache, tenant, library, name,
+            invalidate=invalidate,
         )
         return isometrify_service.process()

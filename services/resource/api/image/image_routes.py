@@ -321,5 +321,6 @@ def library_get_shape_box(
 def generate(
         tenant: str, library: str, name: str, service: ImageService = Provide[Container.image_service],
 ) -> Response:
-    result = service.image_to_render(tenant, library, name)
+    invalidate = request.args.get('invalidate', 'true', type=str).lower() == 'true'
+    result = service.image_to_render(tenant, library, name, invalidate=invalidate)
     return get_resource_response_with_header(result)

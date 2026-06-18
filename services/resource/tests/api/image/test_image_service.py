@@ -735,6 +735,41 @@ class TestImageService(unittest.TestCase):
 
         cache_mock.invalidate.assert_called_once()
 
+    def test_isometrify_without_invalidation(self):
+        queue_mock = MagicMock()
+        repository_mock = MagicMock()
+        cache_mock = MagicMock()
+        repository_mock.get_higher_resolution_path.return_value = any_high_resolution_path
+        repository_mock.get_latest_version.return_value = '12345'
+        repository_mock.storage.file_exists.return_value = False
+        repository_mock.get_lower_resolution_path.return_value = path_join(TEST_ROOT, 'fixtures/sample_icon.png')
+        repository_mock.storage.get_bytes.return_value = self.any_png_buffer()
+        repository_mock.get.return_value = ResourceResult.processing()
+
+        service = ImageService(
+            repository_mock, queue_mock, cache_mock, MagicMock(), MagicMock(), MagicMock()
+        )
+        service.version_factory = MagicMock()
+        service.version_factory.create.return_value = any_new_version
+
+        ret = service.image_to_render(any_tenant, any_library, any_name, invalidate=False)
+        self.assertEqual(ret.state, ResourceState.PROCESSING)
+
+        cache_mock.invalidate.assert_not_called()
+
+        root = queue_mock.send_message.call_args[0][0]
+        for invalidation_urls in self._collect_invalidation_urls(root):
+            self.assertEqual(invalidation_urls, [])
+
+    @staticmethod
+    def _collect_invalidation_urls(step):
+        urls = []
+        if 'invalidation_urls' in step:
+            urls.append(step['invalidation_urls'])
+        for child in step.get('steps', []):
+            urls += TestImageService._collect_invalidation_urls(child)
+        return urls
+
         ### END IMAGE TO RENDER ###
 
     ### GET ###
