@@ -673,6 +673,7 @@ export const stringsEnUs = {
   'PDF_1': 'SGT6 5000F Gas Turbine',
   'PDF_2': 'Maintenance manual',
   'GENERATE_ISOMETRIC_IMAGE': 'Generate isometric image',
+  'PROJECT_TO_ISOMETRIC': 'Project to isometric',
   'ERROR_GENERATING_ISOMETRIC_IMAGE': 'Error generating isometric image',
   'ERROR_GENERATING_ISOMETRIC_WIREFRAME_IMAGE': 'Error generating isometric wireframe image',
   'ISOMETRIC_GENERATION_STARTED': 'Isometric image generation started.',

@@ -7,9 +7,10 @@ import { isNil } from 'lodash'
 
 export const DEFAULT_RESOURCE_LIBRARY = 'default'
 
-export enum IsometricResourceType {
+export enum IsometricMethod {
   REALISTIC = 'realistic',
-  WIREFRAME = 'wireframe'
+  WIREFRAME = 'wireframe',
+  ISOMETRIC_TOP = 'isometric-top'
 }
 
 export class ResourceRepository {
@@ -153,14 +154,14 @@ export class ResourceRepository {
     return response.data['shape-box']
   }
 
-  static async generateIsometric(resourceId: string, library: string | undefined, type: IsometricResourceType, authorization: Authorization): Promise<any> {
+  static async generateIsometric(resourceId: string, library: string | undefined, method: IsometricMethod, authorization: Authorization): Promise<any> {
     const baseUrl = getBaseResourceUrl(resourceId, library, authorization.tenant, ResourceType.image)
     try {
       const response = await httpPut(
         Config.getValue('RESOURCE_API_ADDRESS'),
         baseUrl + '/generate',
         {},
-        {type},
+        {method},
         authorization,
         {headers: {accept: 'application/json'}},
       )

@@ -137,7 +137,7 @@ const mapState = (store: Store): StateProps => {
     isFitting: store.rowHistory.status === RowSavedStatus.fitting,
     visible: store.navigation.visible,
     screenCoordinates,
-    isGeneratingImage: generateState?.status === ResourceGenerateStatus.GENERATING,
+    generatingMethod: generateState?.status === ResourceGenerateStatus.GENERATING ? generateState?.method : undefined,
     allowRotation: !!(store.viewLayers.rowSelection?.allowRotation),
     allowImageEdit: !!(store.viewLayers.rowSelection?.allowImageEdit),
     hasViewField: !!(selectedLayer?.encoding.image?.view?.field) && positionQuery?.getColumns().has(selectedLayer.encoding.image.view.field),
@@ -275,6 +275,18 @@ const mapActions = (dispatch: Dispatch, stateProps: StateProps): ActionProps => 
       if (!resourceId) return
 
       dispatch(actions.rowToolbar.generateIsometricClicked({
+        layerId: stateProps.layer!.getId(),
+        resourceId,
+        library: stateProps.layer!.encoding.image!.scope!,
+        row: stateProps.row!,
+        rowsetId: stateProps.rowsetId!
+      }))
+    },
+    onProjectToIsometricClick: () => {
+      const resourceId = stateProps.layer!.encoding.image!.getId(stateProps.row)
+      if (!resourceId) return
+
+      dispatch(actions.rowToolbar.projectToIsometricClicked({
         layerId: stateProps.layer!.getId(),
         resourceId,
         library: stateProps.layer!.encoding.image!.scope!,

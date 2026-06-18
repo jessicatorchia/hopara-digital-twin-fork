@@ -4,7 +4,7 @@ import { Authorization } from '@hopara/authorization'
 import { Store } from '../state/Store'
 import { Layers } from '../layer/Layers'
 import { ImageRepository } from './ImageRepository'
-import { IsometricResourceType } from '../resource/ResourceRepository'
+import { IsometricMethod } from '../resource/ResourceRepository'
 import { toastInfo, toastSuccess } from '@hopara/design-system/src/toast/Toast'
 import { i18n } from '@hopara/i18n'
 import { Bounds, PlainBounds, RowCoordinates } from '@hopara/spatial'
@@ -299,7 +299,43 @@ function* generateIsometricImage(action: ReturnType<typeof actions.rowToolbar.ge
       ImageRepository.generateIsometric,
       action.payload.resourceId,
       action.payload.library,
-      IsometricResourceType.REALISTIC,
+      IsometricMethod.REALISTIC,
+      authorization
+    )
+
+    yield put(actions.image.generateIsometric.success({
+      library: action.payload.library,
+      imageId: action.payload.resourceId,
+      layerId: action.payload.layerId,
+      rowsetId: action.payload.rowsetId,
+      resourceId: action.payload.resourceId,
+      row: action.payload.row,
+      dimensions: imageMetadata.dimensions,
+      version: imageMetadata.version,
+      shape: imageMetadata.shape,
+      canRotate: true
+    }))
+
+    toastSuccess(i18n('ISOMETRIC_GENERATION_STARTED'))
+  } catch (e: any) {
+    yield put(actions.image.generateIsometric.failure({
+      reason: i18n('ERROR_GENERATING_ISOMETRIC_IMAGE'),
+      resourceId: action.payload.resourceId,
+      library: action.payload.library,
+      exception: e
+    }))
+  }
+}
+
+function* projectToIsometricImage(action: ReturnType<typeof actions.rowToolbar.projectToIsometricClicked>) {
+  try {
+    const authorization: Authorization = yield getRefreshAuthorization()
+
+    const imageMetadata = yield call(
+      ImageRepository.generateIsometric,
+      action.payload.resourceId,
+      action.payload.library,
+      IsometricMethod.ISOMETRIC_TOP,
       authorization
     )
 
@@ -335,7 +371,7 @@ function* generateIsometricWireframeImage(action: ReturnType<typeof actions.rowT
       ImageRepository.generateIsometric,
       action.payload.resourceId,
       action.payload.library,
-      IsometricResourceType.WIREFRAME,
+      IsometricMethod.WIREFRAME,
       authorization
     )
 
@@ -420,6 +456,7 @@ export const imageSagas = () => [
   takeEvery(actions.viewLayer.cropApplyClicked, cropImage),
   takeEvery(actions.rowToolbar.generateIsometricClicked, generateIsometricImage),
   takeEvery(actions.rowToolbar.generateIsometricWireframeClicked, generateIsometricWireframeImage),
+  takeEvery(actions.rowToolbar.projectToIsometricClicked, projectToIsometricImage),
   takeEvery(actions.image.generateIsometric.success, saveImageBounds),
   takeEvery(actions.image.generateIsometricWireframe.success, saveImageBounds),
   takeEvery(actions.rowToolbar.onLoad, updateImageMetadata),
